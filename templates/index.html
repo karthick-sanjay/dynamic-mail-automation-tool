@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MailForge — Scheduled Email Campaigns</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="page-wrapper">
+
+    <header class="site-header">
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">MailForge</span>
+      </div>
+      <nav class="header-badge">Gmail · Scheduled Campaigns</nav>
+    </header>
+
+    <section class="hero">
+      <p class="hero-eyebrow">Powered by Gmail SMTP</p>
+      <h1 class="hero-title">Schedule your campaign.<br>We handle the rest.</h1>
+      <p class="hero-sub">Connect a Google Sheet, brand your email, compose your message — MailForge delivers to every recipient automatically.</p>
+    </section>
+
+    <main class="card-container">
+      <div class="card">
+
+        <!-- Steps -->
+        <div class="steps">
+          <div class="step active" data-step="1"><div class="step-dot">1</div><span>Sender</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="2"><div class="step-dot">2</div><span>Branding</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="3"><div class="step-dot">3</div><span>Recipients</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="4"><div class="step-dot">4</div><span>Message</span></div>
+          <div class="step-line"></div>
+          <div class="step" data-step="5"><div class="step-dot">5</div><span>Schedule</span></div>
+        </div>
+
+        <form id="campaignForm" novalidate>
+
+          <!-- ── Section 1: Sender ── -->
+          <section class="form-section" id="section-1">
+            <h2 class="section-title"><span class="section-num">01</span> Gmail Sender</h2>
+            <div class="field-group two-col">
+              <div class="field">
+                <label for="gmailAddress">Your Gmail Address</label>
+                <div class="input-wrap">
+                  <span class="input-icon">✉</span>
+                  <input type="email" id="gmailAddress" placeholder="yourname@gmail.com" autocomplete="email" />
+                </div>
+                <span class="field-error" id="err-gmailAddress"></span>
+              </div>
+              <div class="field">
+                <label for="appPassword">Gmail App Password <span class="label-hint">not your normal password</span></label>
+                <div class="input-wrap">
+                  <span class="input-icon">🔑</span>
+                  <input type="password" id="appPassword" placeholder="xxxx xxxx xxxx xxxx" />
+                  <button type="button" class="toggle-pass" aria-label="Show/hide">
+                    <span class="eye-icon">👁</span>
+                  </button>
+                </div>
+                <span class="field-error" id="err-appPassword"></span>
+                <p class="field-hint">Get one at <em>myaccount.google.com/apppasswords</em></p>
+              </div>
+            </div>
+          </section>
+
+          <!-- ── Section 2: Branding ── -->
+          <section class="form-section" id="section-2">
+            <h2 class="section-title"><span class="section-num">02</span> Email Branding</h2>
+
+            <div class="field-group two-col">
+              <div class="field">
+                <label for="brandName">Brand / Company Name</label>
+                <div class="input-wrap">
+                  <span class="input-icon">🏷</span>
+                  <input type="text" id="brandName" placeholder="Acme Corp" />
+                </div>
+                <span class="field-error" id="err-brandName"></span>
+              </div>
+
+            </div>
+
+            <div class="field-group two-col" style="margin-top:20px;">
+              <div class="field">
+                <label>Logo <span class="label-hint">optional</span></label>
+                <div class="logo-dropzone" id="logoDropzone">
+                  <input type="file" id="logoFileInput" accept="image/*" style="display:none;" />
+                  <div class="dropzone-idle" id="dropzoneIdle">
+                    <span class="dropzone-icon">🖼</span>
+                    <p class="dropzone-title">Drop your logo here</p>
+                    <p class="dropzone-sub">or <button type="button" id="browseBtn" class="browse-btn">browse files</button></p>
+                    <p class="dropzone-hint">PNG, JPG, SVG, WEBP &middot; max 2 MB</p>
+                  </div>
+                  <div class="dropzone-preview" id="dropzonePreview" style="display:none;">
+                    <img id="logoPreviewImg" src="" alt="Logo preview" />
+                    <div class="dropzone-preview-info">
+                      <span id="logoFileName" class="logo-file-name"></span>
+                      <button type="button" id="removeLogoBtn" class="remove-logo-btn">&#x2715; Remove</button>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="logoBase64" />
+              </div>
+              <div class="field">
+                <label for="websiteUrl">Website URL</label>
+                <div class="input-wrap">
+                  <span class="input-icon">&#127760;</span>
+                  <input type="url" id="websiteUrl" placeholder="https://yoursite.com" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Social links -->
+            <div class="social-section">
+              <p class="social-label">Social Media Links <span class="label-hint">optional — paste full URL or just the handle</span></p>
+              <div class="social-grid">
+
+                <div class="social-field">
+                  <div class="social-icon-wrap twitter">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                    </svg>
+                  </div>
+                  <input type="text" id="twitter" placeholder="@handle or full URL" />
+                </div>
+
+                <div class="social-field">
+                  <div class="social-icon-wrap instagram">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                  </div>
+                  <input type="text" id="instagram" placeholder="@handle or full URL" />
+                </div>
+
+                <div class="social-field">
+                  <div class="social-icon-wrap linkedin">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  </div>
+                  <input type="text" id="linkedin" placeholder="company/handle or full URL" />
+                </div>
+
+                <div class="social-field">
+                  <div class="social-icon-wrap facebook">
+                    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </div>
+                  <input type="text" id="facebook" placeholder="@handle or full URL" />
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Live email preview -->
+            <div class="preview-toggle">
+              <button type="button" id="previewBtn" class="btn-preview">
+                <span>👁 Preview Email</span>
+              </button>
+            </div>
+            <div id="emailPreviewWrap" style="display:none;">
+              <div class="preview-label">Live Email Preview</div>
+              <div class="preview-frame-wrap">
+                <iframe id="emailPreviewFrame" title="Email preview"
+                        style="width:100%;height:420px;border:none;border-radius:8px;"></iframe>
+              </div>
+            </div>
+
+          </section>
+
+          <!-- ── Section 3: Recipients ── -->
+          <section class="form-section" id="section-3">
+            <h2 class="section-title"><span class="section-num">03</span> Recipient List</h2>
+            <div class="field">
+              <label for="sheetUrl">Google Sheet Link <span class="label-hint">must be publicly readable</span></label>
+              <div class="input-wrap">
+                <span class="input-icon">📊</span>
+                <input type="url" id="sheetUrl" placeholder="https://docs.google.com/spreadsheets/d/…" />
+              </div>
+              <span class="field-error" id="err-sheetUrl"></span>
+              <p class="field-hint">Column A header must be <code>Email</code>. Share as <em>"Anyone with the link → Viewer"</em>.</p>
+            </div>
+          </section>
+
+          <!-- ── Section 4: Message ── -->
+          <section class="form-section" id="section-4">
+            <h2 class="section-title"><span class="section-num">04</span> Email Content</h2>
+            <div class="field">
+              <label for="subject">Subject Line</label>
+              <div class="input-wrap">
+                <span class="input-icon">✏</span>
+                <input type="text" id="subject" placeholder="Your subject here…" />
+              </div>
+              <span class="field-error" id="err-subject"></span>
+            </div>
+            <div class="field">
+              <label for="message">Message Body <span class="label-hint" id="charCount">0 chars</span></label>
+              <textarea id="message" rows="7" placeholder="Write your email message here…"></textarea>
+              <span class="field-error" id="err-message"></span>
+            </div>
+          </section>
+
+          <!-- ── Section 5: Schedule ── -->
+          <section class="form-section" id="section-5">
+            <h2 class="section-title"><span class="section-num">05</span> Delivery Schedule</h2>
+            <div class="field">
+              <label for="scheduledTime">Date &amp; Time</label>
+              <div class="input-wrap">
+                <span class="input-icon">🕐</span>
+                <input type="datetime-local" id="scheduledTime" />
+              </div>
+              <span class="field-error" id="err-scheduledTime"></span>
+              <p class="field-hint">Times are interpreted in your local timezone.</p>
+            </div>
+          </section>
+
+          <!-- Submit -->
+          <div class="submit-row">
+<button type="submit" class="btn-primary" id="submitBtn">
+              <span class="btn-text">Schedule Campaign</span>
+              <span class="btn-loader" aria-hidden="true"></span>
+              <span class="btn-icon">→</span>
+            </button>
+          </div>
+
+        </form>
+
+        <!-- Result Panel -->
+        <div id="resultPanel" class="result-panel" style="display:none">
+          <div class="result-panel-header">
+            <span id="resultIcon"></span>
+            <strong id="resultTitle"></strong>
+          </div>
+          <div id="resultBody" class="result-body"></div>
+        </div>
+
+        <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p>MailForge — powered by Gmail SMTP &amp; Google Sheets</p>
+    </footer>
+
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>
